@@ -1,4 +1,4 @@
-from expense_check import expense_check, InvalidInputException
+from day01.expense_check import expense_check, InvalidInputException
 import pytest
 
 # Let's start with tests. But usefully and proactively,

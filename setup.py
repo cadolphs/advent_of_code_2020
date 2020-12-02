@@ -1,3 +1,5 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
-setup(packages=['helpers'], name='helpers')
+packages = find_packages(where=".")
+
+setup(packages=packages, package_dir={"":"."})
