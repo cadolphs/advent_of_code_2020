@@ -2,14 +2,12 @@ from itertools import combinations
 from typing import Iterable
 from operator import mul
 from functools import reduce
-from numba import jit
 
 
 def product(items: Iterable[int], start=1) -> int:
     return reduce(mul, items, start)
 
 
-@jit(nopython=True)
 def expense_check(expenses: Iterable[int], num_numbers=2) -> int:
     for combination in combinations(expenses, num_numbers):
         if sum(combination) == 2020:
