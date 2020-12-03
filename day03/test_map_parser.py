@@ -10,6 +10,6 @@ def test_simple_parse():
 
     expected = np.array(
         [[False, True, False], [False, False, True], [True, True, False]]
-    )
+    ).T
 
     assert np.all(expected == arr)

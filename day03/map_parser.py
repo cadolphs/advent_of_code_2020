@@ -11,7 +11,7 @@ def parse_map(map_string: str) -> np.ndarray:
     for i, row in enumerate(lines):
         arr[i] = row_to_array(row)
 
-    return arr
+    return arr.T
 
 
 def row_to_array(row):

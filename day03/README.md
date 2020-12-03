@@ -13,4 +13,12 @@ trees we encounter.
 
 First we write a utility class that's a RightCyclicalArray.
 
-Next up, we want to parse the map.
+Next up, we want to parse the map, which is simple enough.
+
+Finally, we want to generate positions. For that we can just write a generator.
+
+The rest is just plugging things together correctly...
+
+Of course in trying this run I mixed up the array directions; with numpy arrays 
+the first index is commonly understood to be the "row" and the second index is the 
+column; this problem uses the opposite order.

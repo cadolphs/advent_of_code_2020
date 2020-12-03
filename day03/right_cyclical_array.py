@@ -5,7 +5,11 @@ class RightCyclicalArray:
     def __getitem__(self, index):
         if not isinstance(index, tuple):
             raise IndexError(f"{index} is not a valid tuple index")
-        row, col = index
-        modulo_col = col % self._array.shape[1] if col > 0 else col
+        col, row = index
+        modulo_col = col % self.shape[0] if col > 0 else col
 
-        return self._array[row, modulo_col]
+        return self._array[modulo_col, row]
+
+    @property
+    def shape(self):
+        return self._array.shape

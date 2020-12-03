@@ -11,7 +11,5 @@ def test_check_items():
     array[0, 0]
     input_array.__getitem__.assert_called_with((0, 0))
 
-    array[2, 10]
-    input_array.__getitem__.assert_called_with((2, 2))
-
-    assert True
+    array[10, 2]
+    input_array.__getitem__.assert_called_with((1, 2))
