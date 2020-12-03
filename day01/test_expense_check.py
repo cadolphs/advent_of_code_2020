@@ -1,4 +1,4 @@
-from day01.expense_check import expense_check, InvalidInputException
+from day01.expense_check import expense_check, InvalidInputException, check_pair
 import pytest
 
 # Let's start with tests. But usefully and proactively,
@@ -43,3 +43,11 @@ def test_three_numbers():
     result = expense_check(test_list, num_numbers=3)
 
     assert expected_result == result
+
+
+def test_pair_check():
+    test_list = [2000, 20, 5]
+
+    result = check_pair(test_list)
+
+    assert sorted(result) == [20, 2000]
