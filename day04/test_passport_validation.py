@@ -1,4 +1,4 @@
-from day04.passport_validation import is_valid
+from day04.passport_validation import is_present
 
 
 def test_valid_passport():
@@ -7,7 +7,7 @@ def test_valid_passport():
 
     test_pp = dict(zip(keys, vals))
 
-    assert is_valid(test_pp)
+    assert is_present(test_pp)
 
 
 def test_invalid_passport():
@@ -16,4 +16,4 @@ def test_invalid_passport():
 
     test_pp = dict(zip(keys, vals))
 
-    assert not is_valid(test_pp)
+    assert not is_present(test_pp)
