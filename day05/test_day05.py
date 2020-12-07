@@ -1,4 +1,9 @@
-from day05.day05 import compute_checksum, translate_problem_input, translate_string
+from day05.day05 import (
+    compute_checksum,
+    id_from_input_directly,
+    translate_problem_input,
+    translate_string,
+)
 import pytest
 
 
@@ -23,4 +28,4 @@ def test_translate_string():
 )
 def test_problem_input(test_input, expected, seat_id):
     assert expected == translate_problem_input(test_input)
-    assert seat_id == compute_checksum(expected)
+    assert seat_id == id_from_input_directly(test_input)

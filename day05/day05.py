@@ -34,6 +34,12 @@ def translate_problem_input(text: str) -> Tuple[int, int]:
     return (row_number, col_number)
 
 
+def id_from_input_directly(text: str) -> int:
+    return int(
+        text.translate(str.maketrans({"F": "0", "B": "1", "L": "0", "R": "1"})), base=2
+    )
+
+
 def compute_checksum(seat: Tuple[int, int]) -> int:
     return seat[0] * 8 + seat[1]
 
@@ -41,12 +47,21 @@ def compute_checksum(seat: Tuple[int, int]) -> int:
 def main():
     data = get_data(day=5).split("\n")
 
-    max_id = max(
-        compute_checksum(translate_problem_input(boarding_pass))
-        for boarding_pass in data
-    )
+    all_ids = {id_from_input_directly(boarding_pass) for boarding_pass in data}
+    max_id = max(all_ids)
 
     print(f"Highest seat ID is {max_id}")
+
+    missing_ids = set(range(max_id + 1)) - all_ids
+
+    no_neighbor_ids = [
+        _id
+        for _id in missing_ids
+        if (_id - 1) not in missing_ids and (_id + 1) not in missing_ids
+    ]
+    if len(no_neighbor_ids) != 1:
+        print("Something went wrong! More than 1 potential seat.")
+    print(f"Yours eat has number {no_neighbor_ids[0]}")
 
 
 if __name__ == "__main__":
