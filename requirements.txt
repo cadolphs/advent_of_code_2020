@@ -4,3 +4,4 @@ black
 flake8
 scalene
 numba
+networkx

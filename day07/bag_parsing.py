@@ -1,4 +1,4 @@
-from collections import namedtuple
+from typing import List, NamedTuple
 import pyparsing as pp
 
 
@@ -17,8 +17,17 @@ empty_line = pp.Group(
 
 inner_bag_token = pp.Group(number + color + bag_or_bags + pp.Suppress(pp.oneOf(". ,")))
 
-ContainedBag = namedtuple("ContainedBag", ["num", "color"])
-Rule = namedtuple("Rule", ["color", "contained_bags"])
+
+class ContainedBag(NamedTuple):
+    num: int
+    color: str
+
+
+# Rule = namedtuple("Rule", ["color", "contained_bags"])
+class Rule(NamedTuple):
+    color: str
+    contained_bags: List[ContainedBag]
+
 
 multi_line = pp.Group(
     color + bags_cont + pp.Group(inner_bag_token[1, ...])
@@ -53,3 +62,7 @@ def process_empty_bag(parse_result: pp.ParseResults) -> Rule:
     color = combine_colors(parse_result[0])
 
     return Rule(color=color, contained_bags=[])
+
+
+def parse_input(data: str) -> List[Rule]:
+    return [parse_rule(line) for line in data.split("\n")]
