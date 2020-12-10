@@ -41,3 +41,9 @@ def test_acc_increases_accumulator():
 
     computer.advance_instruction_pointer.assert_called_with(1)
     computer.increase_accumulator.assert_called_with(55)
+
+
+def test_eq():
+    assert AccInstruction(42) == AccInstruction(42)
+    assert AccInstruction(55) != AccInstruction(42)
+    assert AccInstruction(42) != NopInstruction(42)

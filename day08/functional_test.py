@@ -1,4 +1,4 @@
-from day08.computer import Computer
+from day08.computer import Computer, InfiniteLoopException
 
 
 def main():
@@ -33,7 +33,10 @@ def main():
 
     computer = Computer.from_program_string(prog)
 
-    computer.run()
+    try:
+        computer.run()
+    except InfiniteLoopException:
+        pass
 
     print(f"Program stopped. Value in accumulator is {computer.accumulator}")
 

@@ -1,5 +1,5 @@
 from typing import Iterable
-from day08.instruction import Instruction
+from day08.instruction import Instruction, parse_program_to_instructions
 
 
 class Computer:
@@ -30,6 +30,10 @@ class Computer:
                 positions_visited.add(self.instruction_pointer)
                 instr = self._load_instruction()
                 instr.execute(self)
+            # If we are here, we hit an infinite loop
+            raise InfiniteLoopException(
+                f"Instruction at position {self.instruction_pointer} has been executed already."
+            )
         except StopExecution:
             pass
 
@@ -39,7 +43,6 @@ class Computer:
         try:
             return self._instructions[self.instruction_pointer]
         except IndexError:
-            print("Index out of bound. Stopping for now!")
             raise StopExecution()
 
     def stop(self):
@@ -47,7 +50,7 @@ class Computer:
 
     @classmethod
     def from_program_string(cls, program: str) -> "Computer":
-        instructions = [Instruction.from_line(line) for line in program.split("\n")]
+        instructions = parse_program_to_instructions(program)
         return cls(instructions)
 
 
@@ -56,4 +59,8 @@ class BufferOverrunError(Exception):
 
 
 class StopExecution(Exception):
+    pass
+
+
+class InfiniteLoopException(Exception):
     pass

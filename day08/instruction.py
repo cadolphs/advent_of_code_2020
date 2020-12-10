@@ -1,3 +1,4 @@
+from typing import List
 from day08.parse_data import parse_line
 
 
@@ -24,11 +25,21 @@ class Instruction:
         elif op == "jmp":
             return JmpInstruction(arg)
 
-        raise NotImplementedError("We will get to there")
+        raise ValueError(f"Don't know instruction {op}.")
 
     def execute(self, computer):
         computer.increase_accumulator(self.accumulator_increment())
         computer.advance_instruction_pointer(self.instruction_step())
+
+    # Some magic methods?
+    def __eq__(self, o: object) -> bool:
+        if type(o) == type(self):
+            return o.arg == self.arg
+        else:
+            return False
+
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}({self.arg})"
 
     # Override these in child classes:
 
@@ -51,3 +62,7 @@ class JmpInstruction(Instruction):
 class AccInstruction(Instruction):
     def accumulator_increment(self):
         return self.arg
+
+
+def parse_program_to_instructions(program: str) -> List[Instruction]:
+    return [Instruction.from_line(line) for line in program.split("\n")]
