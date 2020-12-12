@@ -1,5 +1,4 @@
-from typing import final
-from day11.seating_plan import SeatingPlan
+from day11.seating_plan import SeatingPlan, SeatingPlan2
 
 
 def test_from_string():
@@ -78,3 +77,16 @@ def test_find_repeater():
 
     assert final_plan == final_plan.step()
     assert stable_plan == final_plan
+
+
+def test_2_step():
+    input_seating = "L.LL.LL.LL\nLLLLLLL.LL\nL.L.L..L..\nLLLL.LL.LL\nL.LL.LL.LL\nL.LLLLL.LL\n..L.L.....\nLLLLLLLLLL\nL.LLLLLL.L\nL.LLLLL.LL"
+    third_seating = "#.LL.LL.L#\n#LLLLLL.LL\nL.L.L..L..\nLLLL.LL.LL\nL.LL.LL.LL\nL.LLLLL.LL\n..L.L.....\nLLLLLLLLL#\n#.LLLLLL.L\n#.LLLLL.L#"
+
+    plan = SeatingPlan2.from_string(input_seating)
+    first_plan = plan.step()
+    next_plan = first_plan.step()
+
+    expected = SeatingPlan2.from_string(third_seating)
+
+    assert expected == next_plan

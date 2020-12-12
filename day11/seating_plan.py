@@ -1,11 +1,24 @@
+from abc import ABC, abstractmethod
 import numpy as np
+from itertools import product
 
 FLOOR = 0
 EMPTY = 1
 OCCUPIED = 2
 
+directions = [
+    (0, 1),
+    (1, 0),
+    (0, -1),
+    (-1, 0),
+    (1, 1),
+    (1, -1),
+    (-1, 1),
+    (-1, -1),
+]
 
-class SeatingPlan:
+
+class AbstractSeatingPlan(ABC):
     def __init__(self, array):
         # Could add validation here, like does it only contain 0, 1, 2.
         self._array = array
@@ -20,7 +33,9 @@ class SeatingPlan:
             return False
 
     def __str__(self):
-        return str(self._array[1:-1, 1:-1]).translate(str.maketrans("012", ".L#"))
+        return str((self._array[1:-1, 1:-1].astype(int))).translate(
+            str.maketrans("012", ".L#", " []")
+        )
 
     @classmethod
     def from_string(cls, data: str) -> "SeatingPlan":
@@ -41,6 +56,20 @@ class SeatingPlan:
         )
         return np.array([int(c) for c in line_as_numbers])
 
+    def step_until_stable(self):
+        current = self
+        while (new_plan := current.step()) != current:
+            current = new_plan
+
+        return current
+
+    # Implement this in child class:
+    @abstractmethod
+    def step(self):
+        pass
+
+
+class SeatingPlan(AbstractSeatingPlan):
     def step(self):
 
         central_view = self._array[1:-1, 1:-1]
@@ -68,9 +97,61 @@ class SeatingPlan:
 
         return SeatingPlan(new_array)
 
-    def step_until_stable(self):
-        current = self
-        while (new_plan := current.step()) != current:
-            current = new_plan
 
-        return current
+class SeatingPlan2(AbstractSeatingPlan):
+    def step(self):
+        new_array = np.array(self._array)
+
+        for pos in product(range(self._array.shape[0]), range(self._array.shape[1])):
+            new_array[pos] = self._update_pos(pos)
+
+        return SeatingPlan2(new_array)
+
+    def _update_pos(self, pos):
+        val = self._array[pos]
+        if val == FLOOR:
+            return FLOOR
+        elif val == EMPTY:
+            return (
+                OCCUPIED
+                if all(
+                    self._count_visible_in_direction(direction, pos, OCCUPIED) == 0
+                    for direction in directions
+                )
+                else EMPTY
+            )
+        elif val == OCCUPIED:
+            occ = 0
+            for i, direction in enumerate(directions):
+                occ += self._count_visible_in_direction(direction, pos, OCCUPIED)
+
+                if occ >= 5:
+                    return EMPTY
+                # if current occupied plus all remaining potentials is less than 5, cant' possibly make it
+                if occ + 7 - i < 5:
+                    return OCCUPIED
+            return OCCUPIED
+        raise ValueError()
+
+    def _count_visible(self, pos, val):
+        # All right, this is the annoying part.
+
+        return sum(
+            self._count_visible_in_direction(direction, pos, val)
+            for direction in directions
+        )
+
+    def _count_visible_in_direction(self, direction, pos, val):
+        def _is_valid(pos):
+            return (
+                0 <= pos[0] < self._array.shape[0]
+                and 0 <= pos[1] < self._array.shape[1]
+            )
+
+        while _is_valid(pos := (pos[0] + direction[0], pos[1] + direction[1])):
+            if self._array[pos] == val:
+                return 1
+            elif self._array[pos] != FLOOR:
+                # It's not the type of seat we want but it's not the floor either
+                return 0
+        return 0
