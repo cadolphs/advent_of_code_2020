@@ -47,4 +47,8 @@ So a quick refactor then. Use the `all` function which lazily evaluates, and sto
 Then we can count how many occupied versus non occupied we've seen. If we hit 5 occupied, we abort and make the seat empty. If we hit 
 4 unoccupied, we abort and make leave the seat occupied. This has a much lower impact though as it introduces extra steps to keep track of stuff.
 
+# Addendum
+Talk about overthinking. Of course since the seats themselves don't actually move, the whole effort of finding the seats visible from any given other seat 
+can be precomputed just once and then re-used when doing the steps
 
+This would require a tiny bit of refactoring, but I don't feel like doing that at this point ;)
