@@ -22,3 +22,6 @@ class BitMask:
         number |= self._ones
         number &= ~self._zeros
         return number
+
+    def __eq__(self, other):
+        return self.__class__ == other.__class__ and self._mask_str == other._mask_str

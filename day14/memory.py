@@ -28,3 +28,6 @@ class Memory:
 
     def keys(self):
         return self._memarray.keys()
+
+    def values(self):
+        return self._memarray.values()

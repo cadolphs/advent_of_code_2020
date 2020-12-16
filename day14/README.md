@@ -19,4 +19,6 @@ So with an int `ones` and and int `zeros`, we can then use bit-wise operators to
 `number | ones` will set every bit to 1 that's 1 in `ones`, and leave all other bits unchanged
 `number & ~zeros` will set every bit to 0 that's 0 in `zeros` and leave all other bits unchanged.
 
-Now we can make a computer with some pure commands.
+We can add the mask directly to the memory as a pre-apply hook.
+
+Then the computer is just about running commands.
