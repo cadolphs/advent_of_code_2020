@@ -58,11 +58,11 @@ class IndexBitMask:
         return masks
 
     def _generate_mask(self, ones_and_zeros):
-        mask_str = list(self._mask_str)
+        mask_str = list(self._mask_str.replace("0", "X"))
         for pos, val in zip(self._x_pos, ones_and_zeros):
             mask_str[pos] = str(val)
         mask_str = "".join(mask_str)
-        return self._bit_mask_from_01_str(mask_str)
+        return BitMask(mask_str)
 
     def _bit_mask_from_01_str(self, string: str):
         return BitMask(string.replace("0", "X"))

@@ -33,3 +33,7 @@ Then we'll have a new version of bit mask class. This time applying it to a numb
 should return a list of indices to write to.
 
 And we'll need a different version of the memory class, too.
+
+Okay, so this was a bit mind-bending. The index mask internally uses the original bit mask so we don't 
+have to replicate that "1s" and "0s" logic. But that means having to properly translate the strings...
+

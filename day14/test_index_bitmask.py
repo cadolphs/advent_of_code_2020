@@ -25,3 +25,11 @@ def test_x_floats():
     expected = {0b110, 0b111}
 
     assert expected == set(result)
+
+
+def test_larger_x():
+    mask = IndexBitMask("XX")
+    result = mask.apply(0b11)  # Doesn't really matter
+    expected = set(range(4))
+
+    assert expected == set(result)
