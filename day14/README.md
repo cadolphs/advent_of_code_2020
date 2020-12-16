@@ -22,3 +22,14 @@ So with an int `ones` and and int `zeros`, we can then use bit-wise operators to
 We can add the mask directly to the memory as a pre-apply hook.
 
 Then the computer is just about running commands.
+
+## Part 2
+Now we have a change in functionality, and ideally we can refactor things slightly.
+
+The `Runner` can stay mostly unchanged, but we should be able to specify which version of the 
+bit mask we're using.
+
+Then we'll have a new version of bit mask class. This time applying it to a number (which would be an index) 
+should return a list of indices to write to.
+
+And we'll need a different version of the memory class, too.
