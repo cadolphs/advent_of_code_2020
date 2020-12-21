@@ -1,10 +1,11 @@
 import numpy as np
 from typing import Iterable
 from numba import njit, jit
+from numba.typed import List
 
 
 @njit()
-def get_nth_number(starting_numbers: Iterable[int], n: int) -> int:
+def _get_nth_number(starting_numbers: np.ndarray, n: int) -> int:
     if n <= len(starting_numbers):
         return starting_numbers[n - 1]
 
@@ -28,3 +29,7 @@ def get_nth_number(starting_numbers: Iterable[int], n: int) -> int:
         last_said_number = number_to_say
 
     return last_said_number
+
+
+def get_nth_number(starting_numbers: Iterable[int], n: int) -> int:
+    return _get_nth_number(np.array(starting_numbers), n)
