@@ -1,4 +1,6 @@
 class TrackedNumber:
+    __slots__ = ["_turns_said"]
+
     def __init__(self):
         self._turns_said = (-1, -1)
 
@@ -14,6 +16,9 @@ class TrackedNumber:
             return 0
         else:
             return self._turns_said[1] - self._turns_said[0]
+
+    def diff_to_turn(self, turn: int):
+        return turn - self._turns_said[1]
 
 
 class NumberNeverSaidBeforeException(Exception):

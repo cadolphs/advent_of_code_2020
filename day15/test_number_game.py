@@ -1,28 +1,19 @@
-from day15.number_game import NumberGame
+from day15.number_game import get_nth_number
 import pytest
-
-
-def test_number_game_says_starting_numbers():
-    starting_numbers = [0, 3, 6]
-    game = NumberGame(starting_numbers)
-
-    for expected, said in zip(starting_numbers, game):
-        assert expected == said
-
-
-def test_after_starting_number_keeps_track():
-    starting_numbers = [0, 3, 6]
-    game = NumberGame(starting_numbers)
-
-    expected = [0, 3, 6, 0, 3, 3, 1, 0, 4, 0]
-
-    for expected, said in zip(starting_numbers, game):
-        assert expected == said
 
 
 def test_get_nth_easy():
     start_numbers = [0, 3, 6]
-    assert 3 == NumberGame.get_nth_number(start_numbers, n=2)
+    assert 3 == get_nth_number(start_numbers, n=2)
+
+
+def test_another_test():
+    # 0, 3, 6 | 0, 3, 3, 1
+    start_numbers = [0, 3, 6]
+    assert 0 == get_nth_number(start_numbers, n=4)
+    assert 3 == get_nth_number(start_numbers, n=5)
+    assert 3 == get_nth_number(start_numbers, n=6)
+    assert 1 == get_nth_number(start_numbers, n=7)
 
 
 @pytest.mark.parametrize(
@@ -38,4 +29,4 @@ def test_get_nth_easy():
     ],
 )
 def test_example_input(starting_numbers, n, expected_nth):
-    assert expected_nth == NumberGame.get_nth_number(starting_numbers, n=n)
+    assert expected_nth == get_nth_number(starting_numbers, n=n)

@@ -1,32 +1,30 @@
-from typing import DefaultDict, Iterable
-from day15.tracked_number import TrackedNumber
+import numpy as np
+from typing import Iterable
+from numba import njit, jit
 
 
-class NumberGame:
-    def __init__(self, starting_numbers: Iterable[int]):
-        self._starting_numbers = starting_numbers
-        self._numbers = DefaultDict(TrackedNumber)
-        self._last_said_number = None
+@njit()
+def get_nth_number(starting_numbers: Iterable[int], n: int) -> int:
+    if n <= len(starting_numbers):
+        return starting_numbers[n - 1]
 
-    def __iter__(self):
-        for turn, number in enumerate(self._starting_numbers, start=1):
-            self._numbers[number].say(turn)
+    size_of_array = max(max(starting_numbers), n) + 2
+    memory = np.zeros(size_of_array, dtype=np.int32)
 
-            yield number
-        self._turn = len(self._starting_numbers)
-        self._last_said_number = self._starting_numbers[-1]
+    num_starts = len(starting_numbers)
+    for turn in range(1, num_starts):
+        memory[starting_numbers[turn - 1]] = turn
 
-        while True:
-            self._turn += 1
-            number_to_say = self._numbers[self._last_said_number].get_number_to_say()
-            self._numbers[number_to_say].say(turn=self._turn)
-            self._last_said_number = number_to_say
-            yield number_to_say
+    last_said_number = starting_numbers[-1]
 
-    @classmethod
-    def get_nth_number(cls, starting_numbers: Iterable[int], n: int) -> int:
-        game = iter(cls(starting_numbers=starting_numbers))
-        # Skip first n-1
-        for _ in range(n - 1):
-            next(game)
-        return next(game)
+    for turn in range(len(starting_numbers) + 1, n + 1):
+        last_seen = memory[last_said_number]
+        if last_seen == 0:
+            number_to_say = 0
+        else:
+            number_to_say = turn - last_seen - 1
+
+        memory[last_said_number] = turn - 1
+        last_said_number = number_to_say
+
+    return last_said_number
