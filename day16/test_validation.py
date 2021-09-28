@@ -1,4 +1,4 @@
-from ticket_validation import is_ticket_completely_invalid, find_all_invalid_numbers, drop_invalid_tickets, find_columns_valid_for_rule
+from ticket_validation import is_ticket_completely_invalid, find_all_invalid_numbers, drop_invalid_tickets, rule_to_column_algo
 from pytest import fixture
 from input_parser import read_input
 import numpy as np
@@ -54,8 +54,12 @@ def test_finds_invalid_numbers(sample_inputs):
     assert just_valid[0] == [7, 3, 47]
 
 
-def test_find_valid_columns(valid_ticket_input):
+def test_algo(valid_ticket_input):
     rules, _, nearby_tickets = valid_ticket_input
 
-    res = find_columns_valid_for_rule(np.array(nearby_tickets), rules[0])
-    assert np.all(res == np.array([1, 2]))
+    mat = np.array(nearby_tickets)
+
+    res = rule_to_column_algo(mat, rules)
+
+    print(res)
+    assert False
