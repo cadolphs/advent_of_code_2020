@@ -2,6 +2,7 @@ from rule import Rule
 from typing import List, Iterable
 from itertools import chain
 import numpy as np
+from math import prod as mathprod
 
 def is_ticket_completely_invalid(ticket: List[int], rules: List[Rule]) -> bool:
     return any(all(not rule.is_valid(number) for rule in rules) for number in ticket)
@@ -62,3 +63,8 @@ def rule_to_column_algo(ticket_matrix, rules: List[Rule]):
         rule_ticket_correspondence.sort(key=lambda item: item[0])
     return [(col+1, rules[rule].name) for col, rule in rule_ticket_correspondence]
 
+
+def specific_puzzle_question(my_ticket: List[int], rule_ticket_correspondence):
+    positions_to_check = [pos-1 for pos, rule_name in rule_ticket_correspondence if rule_name.startswith('departure')]
+
+    return mathprod(my_ticket[i] for i in positions_to_check)
