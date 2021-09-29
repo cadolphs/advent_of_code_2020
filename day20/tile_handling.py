@@ -22,6 +22,33 @@ class Tile:
         return cls(id, data)
 
 
+    def border(self, side: int, direction: int) -> np.ndarray:
+        """Return the border of the tile as a 1d vector with the given side, as seen from the given direction.
+
+        From the standard orientation, this means
+        side:
+          0 - top
+          1 - right
+          2 - bottom
+          3 - left
+        direction:
+          0 - rotate tile so side is at the right
+          1 - rotate tile so side is at the left
+        """
+        res = None
+        if side == 0:
+            res = self.data[0, :]
+        elif side == 1:
+            res = self.data[:, -1]
+        elif side == 2:
+            res = self.data[-1, ::-1]
+        elif side == 3:
+            res = self.data[::-1, 0]
+        if direction == 1:
+            res = res[::-1]
+        return res
+
+
 def parse_tile(lines: List[str]) -> np.ndarray:
     num_row = len(lines)
     num_cols = len(lines[0])
