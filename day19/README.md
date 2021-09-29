@@ -11,3 +11,6 @@ that will match an input against a grammar. Which is basically what the
 regexp module will be doing behind the scenes anyway. 
 
 I think parsing into regexp should be easiest.
+
+Next question is, do I want to rely on recursion, or use my own stack?
+Probably cleaner to do the latter.
