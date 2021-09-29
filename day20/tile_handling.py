@@ -21,7 +21,6 @@ class Tile:
         data = parse_tile(lines[1:])
         return cls(id, data)
 
-
     def border(self, side: int, direction: int) -> np.ndarray:
         """Return the border of the tile as a 1d vector with the given side, as seen from the given direction.
 
@@ -47,6 +46,9 @@ class Tile:
         if direction == 1:
             res = res[::-1]
         return res
+
+    def matches(self, other: "Tile", side: int, other_side: int):
+        return np.alltrue(self.border(side, 0) == other.border(other_side, 1))
 
 
 def parse_tile(lines: List[str]) -> np.ndarray:

@@ -52,3 +52,33 @@ def test_border(input_str):
     assert np.alltrue(expected_right[::-1] == tile.border(side=1, direction=1))
     assert np.alltrue(expected_bottom[::-1] == tile.border(side=2, direction=1))
     assert np.alltrue(expected_left[::-1] == tile.border(side=3, direction=1))
+
+
+def test_matches():
+    tile1 = ("Tile 1951:\n"
+             "#.##...##.\n"
+             "#.####...#\n"
+             ".....#..##\n"
+             "#...######\n"
+             ".##.#....#\n"
+             ".###.#####\n"
+             "###.##.##.\n"
+             ".###....#.\n"
+             "..#.#..#.#\n"
+             "#...##.#..")
+    tile2 = ("Tile 2311:\n"
+             "..##.#..#.\n"
+             "##..#.....\n"
+             "#...##..#.\n"
+             "####.#...#\n"
+             "##.##.###.\n"
+             "##...#.###\n"
+             ".#.#.#..##\n"
+             "..#....#..\n"
+             "###...#.#.\n"
+             "..###..###")
+
+    tile1 = Tile.from_str(tile1)
+    tile2 = Tile.from_str(tile2)
+
+    assert tile1.matches(tile2, side=1, other_side=3)
