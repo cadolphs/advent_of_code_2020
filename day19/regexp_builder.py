@@ -1,10 +1,13 @@
 from typing import Dict
 
 
-def grammar_to_regexp(grammar: str, root: int=0) -> str:
+def grammar_to_regexp(grammar: str, root: int=0, whole=True) -> str:
     rule_dict = build_rule_dict(grammar)
 
-    return f"^{process_rule(root, rule_dict)}$"
+    if whole:
+        return f"^{process_rule(root, rule_dict)}$"
+    else:
+        return process_rule(root, rule_dict)
 
 
 def process_rule(rule_idx: int, rule_dict: Dict[int, str]) -> str:
