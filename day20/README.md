@@ -20,3 +20,7 @@ So I'll do some exploration first under the "only one match" assumption.
 
 In that case, we can just grab _any_ puzzle piece, in the standard rotation 
 and then go searching for tiles that fit there.
+
+Alternatively we could build a graph where nodes are tuples (tile, side) and 
+two nodes have an edge if those tile's sides fit together. Then we can see 
+if there's nodes with only exactly one connection, and go from there.
