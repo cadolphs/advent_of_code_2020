@@ -2,7 +2,7 @@ import pytest
 
 from helpers import get_data
 from tile_handling import Tile, parse_input
-from tile_assembly import build_tile_fit_graph, arrange_all_tiles
+from tile_assembly import build_tile_fit_graph
 
 tile1 = ("Tile 1951:\n"
          "#.##...##.\n"
@@ -146,13 +146,6 @@ def example_input():
 def test_graph_simple():
     graph = build_tile_fit_graph([tile1, tile2])
 
-    assert len(list(graph.edges())) == 1
-    assert graph.has_edge((tile1, 1), (tile2, 3))
-
-
-def test_puzzle(example_input):
-    arrange_all_tiles(example_input)
-
-
-def test_arrange_on_my_input():
-    arrange_all_tiles(parse_input(get_data(day=20)))
+    assert len(list(graph.edges())) == 2
+    assert graph.has_edge((tile1, 1, 1), (tile2, 3, 1))
+    assert graph.has_edge((tile1, 1, -1), (tile2, 3, -1))
