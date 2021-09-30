@@ -47,8 +47,9 @@ class Tile:
             res = res[::-1]
         return res
 
-    def matches(self, other: "Tile", side: int, other_side: int):
-        return np.alltrue(self.border(side, 0) == other.border(other_side, 1))
+    def matches(self, other: "Tile", side: int, other_side: int, alignment=1):
+        assert alignment in {-1, 1}
+        return np.alltrue(self.border(side, 0) == other.border(other_side, 1)[::alignment])
 
 
 def parse_tile(lines: List[str]) -> np.ndarray:

@@ -82,3 +82,15 @@ def test_matches():
     tile2 = Tile.from_str(tile2)
 
     assert tile1.matches(tile2, side=1, other_side=3)
+
+
+def test_matches_with_flip(input_str):
+    tile1 = Tile.from_str(input_str)
+    tile2 = Tile.from_str(input_str)
+    tile2.id = 42
+
+    # Creating two identical tiles. Then the corresponding sides will only match if we flip, unless the border
+    # itself happened to be symmetric.
+    for side in range(3):
+        assert tile1.matches(tile2, side=side, other_side=side, alignment=-1)
+        assert not tile1.matches(tile2, side=side, other_side=side)
