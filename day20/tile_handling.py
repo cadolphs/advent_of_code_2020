@@ -63,5 +63,9 @@ def parse_tile(lines: List[str]) -> np.ndarray:
     return arr
 
 
+def parse_input(input_str: str) -> List[Tile]:
+    return [Tile.from_str(block) for block in input_str.split('\n\n')]
+
+
 def row_to_array(row):
     return np.array([entry == "#" for entry in row])

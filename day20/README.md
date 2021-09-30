@@ -24,3 +24,34 @@ and then go searching for tiles that fit there.
 Alternatively we could build a graph where nodes are tuples (tile, side) and 
 two nodes have an edge if those tile's sides fit together. Then we can see 
 if there's nodes with only exactly one connection, and go from there.
+
+So, created that graph, works beautifully. Instead of indexing by "orientation",
+we index nodes by tile and _side_, like top, bottom, etc. And then we ask if 
+two tiles match if they're rotated such that two given sides are adjacent to 
+each other. That takes care of the inherent rotational symmetry:
+
+For every solution you find, there's 3 more solution that you get by rotating 
+the whole puzzle.
+
+Argh, I forgot about the flipping. Mh. But running on my test data, it doesn't 
+appear that I need the flipping to find that "only one possible edge". But that
+might be wrong if some tiles would have multiple options. The problem is then 
+that picking a flip means other flips won't work. Ah, but then I'd have to 
+just delete it.
+
+Anyway. Looking at flips. It might seem we have a lot to keep track of, because 
+we can flip both along the x-axis and the y-axis. However, these aren't 
+independent. You can replace a y-flip by doing an x-flip and rotating by 180 
+degrees.
+
+Now, what happens to a border when we flip and then try and align it? It just 
+picks the reverse:
+- If we flip by x, 
+  - top and bottom stay where they are but get reversed
+  - left and right stay in their shape but swap places; rotating by 180 gets them
+    back to their original position, but reverses them
+- Same logic when we flip by y. So there's really only one flip.
+
+So for matching tiles, if both haven't been flipped, or both have been flipped, 
+we can use the normal match. If one of them has been flipped, but not the other,
+we must reverse one of the borders for the match check.
