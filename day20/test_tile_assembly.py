@@ -2,7 +2,7 @@ import pytest
 
 from helpers import get_data
 from tile_handling import Tile, parse_input
-from tile_assembly import build_tile_fit_graph
+from tile_assembly import build_tile_fit_graph, find_corner_tiles
 
 tile1 = ("Tile 1951:\n"
          "#.##...##.\n"
@@ -149,3 +149,14 @@ def test_graph_simple():
     assert len(list(graph.edges())) == 2
     assert graph.has_edge((tile1, 1, 1), (tile2, 3, 1))
     assert graph.has_edge((tile1, 1, -1), (tile2, 3, -1))
+
+
+@pytest.mark.skip
+def test_playground():
+    all_tiles = parse_input(get_data(day=20))
+    graph = build_tile_fit_graph(all_tiles)
+
+    print(max(graph.degree(node) for node in graph.nodes()))
+    print(min(graph.degree(node) for node in graph.nodes()))
+
+    assert len(find_corner_tiles(all_tiles, graph)) == 4

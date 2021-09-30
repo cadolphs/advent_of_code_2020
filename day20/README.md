@@ -55,3 +55,28 @@ picks the reverse:
 So for matching tiles, if both haven't been flipped, or both have been flipped, 
 we can use the normal match. If one of them has been flipped, but not the other,
 we must reverse one of the borders for the match check.
+
+Great, so in our graph the nodes now also have the alignment label, i.e. whether 
+the tile has been flipped. What's our algorithm for assembly now?
+
+Again, the question is how well the puzzle input constrains which pieces go 
+together and whether we'd have to do search and backtracking (or some other 
+heuristic) or whether we can just greedily put pieces together.
+
+Let's first assume that the puzzle input is benign and that if two tiles 
+match along a given border and alignment, then they're _meant_ to match. 
+
+Let's see then. Again we can try and grab a node of degree 1. That node 
+represents a tile that has as a side and orientation for which there's exactly 
+one other tile, side, and orientation such that those sides match. We somehow 
+log that match and then delete the corresponding nodes.
+
+But wait. For every node and edge we find that way, there'll be a node and 
+edge with opposite alignment that we could have also picked. So we need to 
+keep track of that or be aware of that.
+
+So a bit more experimentation. The tile match graph has max degree 1 and min 
+degree 1. Because sides that don't match anything don't even get added!
+
+Now with that observation, part 1 actually becomes quite easy: The corner 
+tiles are the ones where exactly two of the sides have degree one...
