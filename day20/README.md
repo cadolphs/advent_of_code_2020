@@ -80,3 +80,15 @@ degree 1. Because sides that don't match anything don't even get added!
 
 Now with that observation, part 1 actually becomes quite easy: The corner 
 tiles are the ones where exactly two of the sides have degree one...
+
+# Part 2
+So now we _actually_ have to assemble the image; but thanks to the degree 
+observation, that's not that hard. Don't want to program it right now but 
+will describe the plan:
+
+- Pick any of the four corner tiles.
+- Put it in the top left corner and rotate it so it's correctly aligned, i.e.
+  with its neighbors to the bottom and right. Pick "alignment 1" i.e. no flip.
+- Follow the graph along the bottom edge to assemble until it's a no-go, then
+  go to the right, start going up etc etc until we're done.
+
